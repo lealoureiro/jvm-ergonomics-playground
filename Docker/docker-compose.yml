@@ -1,0 +1,37 @@
+version: "3"
+services:
+  jvm-ergonomics-default:
+    container_name: jvm-ergonomics-default
+    image: jvm-ergonomics-playground:0.0.1
+    ports:
+      - "8080:8080"
+  jvm-ergonomics-1x256MB:
+    container_name: jvm-ergonomics-1x256MB
+    image: jvm-ergonomics-playground:0.0.1
+    ports:
+      - "8081:8080"
+    environment:
+      JAVA_OPTS: "-XX:MaxRAMPercentage=75"
+    deploy:
+      resources:
+        reservations:
+          cpus:  '1'
+          memory: 256M
+        limits:
+          cpus: '1'
+          memory: 256M
+  jvm-ergonomics-4x4GB-g1:
+    container_name: jvm-ergonomics-4x4GB-g1
+    image: jvm-ergonomics-playground:0.0.1
+    ports:
+      - "8082:8080"
+    environment:
+      JAVA_OPTS: "-XX:MaxRAMPercentage=75 -XX:+UseG1GC"
+    deploy:
+      resources:
+        reservations:
+          cpus:  '4'
+          memory: 4096M
+        limits:
+          cpus: '4'
+          memory: 4096M
