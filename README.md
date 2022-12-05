@@ -7,6 +7,17 @@ Run application locally on JVM:
 ```shell
 ./mvnw spring-boot:run
 ```
+Build docker image:
+```shell
+./mvnw clean package
+./build-image.sh
+```
+
+Start up application in containers:
+```shell
+cd Docker
+docker-compose up
+```
 
 Test application by calling API to fetch some information regarding JVM using HTTPie testing tool:
 ```shell
