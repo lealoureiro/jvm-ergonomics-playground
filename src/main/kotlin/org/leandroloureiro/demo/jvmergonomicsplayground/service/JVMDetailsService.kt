@@ -14,19 +14,23 @@ class JVMDetailsService {
         val jvmInfo = runtimeMXBean.vmName + " " + runtimeMXBean.vmVendor + " " + runtimeMXBean.vmVersion
 
         val garbageCollectors = ManagementFactory.getGarbageCollectorMXBeans().stream()
-                .map { gc -> gc.objectName.toString() }
-                .toList()
+            .map { gc -> gc.objectName.toString() }
+            .toList()
 
         val osBean = ManagementFactory.getOperatingSystemMXBean()
         val availableCpus = osBean.availableProcessors
 
         val memoryInfo = getMemoryInfo()
 
-        return JVMInfo(jvmInfo, garbageCollectors, availableCpus, memoryInfo)
+        val environmentVariables = HashMap<String, String>()
+
+        System.getenv().entries.forEach { e -> environmentVariables[e.key] = e.value }
+
+        return JVMInfo(jvmInfo, garbageCollectors, availableCpus, memoryInfo, environmentVariables)
 
     }
 
-    fun getMemoryInfo() : MemoryInfo {
+    fun getMemoryInfo(): MemoryInfo {
 
         val mb = 1024 * 1024
         val runtime = Runtime.getRuntime()
